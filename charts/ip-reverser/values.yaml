@@ -3,10 +3,11 @@ replicaCount: 1
 
 container:
   port: 3000
+  user: postgres
 
 image:
   repository: europe-west3-docker.pkg.dev/commanding-ring-416310/ip-reverser/ip-reverser
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Specify your app's image tag
   tag: "bdb977a583133a6fe8ee3f49e4bd4cef46e4b5ba"
 
