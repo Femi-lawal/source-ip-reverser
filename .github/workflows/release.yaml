@@ -1,0 +1,25 @@
+name: Release Helm Charts
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure Helm
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo update
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.4.0
+        with:
+          version: v1.4.0
+          command: cr package charts/ip-releaser
+        env:
+          CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
