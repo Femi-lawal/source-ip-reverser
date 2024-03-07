@@ -1,0 +1,18 @@
+apiVersion: v1
+entries:
+  ip-reverser:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-03-07T19:04:41.537435032Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.3.1
+    description: A Helm chart for Kubernetes
+    digest: e6b6aeb336e23a275716ed045e89f355f8fdcae9a5b9a6b04737b811e974ac0a
+    name: ip-reverser
+    type: application
+    urls:
+    - https://github.com/Femi-lawal/source-ip-reverser/releases/download/ip-reverser-0.1.0/ip-reverser-0.1.0.tgz
+    version: 0.1.0
+generated: "2024-03-07T19:04:41.537443528Z"
