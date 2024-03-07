@@ -1,0 +1,5 @@
+quiet: true
+output:
+  - github_failed_only
+framework:
+  - terraform

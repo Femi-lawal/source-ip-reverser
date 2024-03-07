@@ -1,0 +1,39 @@
+name: TFLint
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/terraform-lint.yml
+      - terraform/**
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/terraform-lint.yml
+      - terraform/**
+
+jobs:
+  tflint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - uses: terraform-linters/setup-tflint@v3
+        name: Setup TFLint
+        with:
+          tflint_version: v0.43.0
+          github_token: ${{ github.token }}
+
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint for modules
+        run: find terraform/modules -name ".tflint.enabled" -exec dirname {} \; | xargs -I % tflint -f compact --module %
+
+      - name: Run TFLint for base folder
+        run: cd terraform/ && terraform init -backend=false > /dev/null 2>&1 && tflint -f compact --force .

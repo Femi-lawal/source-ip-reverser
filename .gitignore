@@ -41,7 +41,7 @@ terraform.rc
 node_modules
 .serverless
 builds
-
+.env
 output
 
 # Ignore Python interpreter cache
