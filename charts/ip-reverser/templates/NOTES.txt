@@ -1,0 +1,22 @@
+Thank you for installing {{ .Chart.Name }}!
+
+{{- if eq .Values.service.type "LoadBalancer" }}
+Your application should be accessible through the LoadBalancer IP at the following URL:
+NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+You can watch the status by running:
+kubectl get --namespace {{ .Release.Namespace }} svc -w {{ include "ip-reverser.fullname" . }}
+
+{{- else }}
+Your service is of type '{{ .Values.service.type }}'. Access methods may vary based on service type.
+{{- end }}
+
+PostgreSQL Database details:
+  Host: {{ .Release.Name }}-postgresql
+  Username: {{ .Values.postgresql.postgresqlUsername }}
+  Database Name: {{ .Values.postgresql.postgresqlDatabase }}
+
+To retrieve the PostgreSQL password, use:
+kubectl get secret --namespace {{ .Release.Namespace }} {{ include "ip-reverser.fullname" . }}-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode
+
+To connect to your database, use the following command:
+kubectl run {{ .Release.Name }}-postgresql-client --rm --tty -i --restart='Never' --namespace {{ .Release.Namespace }} --image docker.io/bitnami/postgresql:{{ .Values.postgresql.image.tag }} --env="PGPASSWORD=$(kubectl get secret --namespace {{ .Release.Namespace }} {{ include "ip-reverser.fullname" . }}-postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)" --command -- psql --host {{ .Release.Name }}-postgresql -U {{ .Values.postgresql.postgresqlUsername }} -d {{ .Values.postgresql.postgresqlDatabase }} -p 5432

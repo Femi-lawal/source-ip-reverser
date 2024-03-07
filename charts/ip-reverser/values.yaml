@@ -1,0 +1,21 @@
+# values.yaml
+replicaCount: 1
+
+container:
+  port: 3000
+
+image:
+  repository: europe-west3-docker.pkg.dev/commanding-ring-416310/ip-reverser/ip-reverser
+  pullPolicy: IfNotPresent
+  # Specify your app's image tag
+  tag: "bdb977a583133a6fe8ee3f49e4bd4cef46e4b5ba"
+
+service:
+  type: LoadBalancer
+  port: 80
+
+postgresql:
+  enabled: true
+  image:
+    repository: postgres
+    tag: 13
